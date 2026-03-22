@@ -14,7 +14,7 @@ dependencies:
   fl_chart: ^0.69.0
   intl: ^0.20.1
   uuid: ^4.5.1
-  google_fonts: ^6.2.1
+  google_fonts: ^8.0.2
   percent_indicator: ^4.2.3
 
 dev_dependencies:

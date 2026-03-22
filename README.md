@@ -1,102 +1,95 @@
 # LifeOS — Your Personal Command Center
 
-A comprehensive personal life management CLI application built with Python and Rich. Manage your finances, goals, schedule, health, and journal from one sleek terminal interface.
+A native macOS app built with Flutter for managing your finances, goals, schedule, health, and notes — all in one sleek dark-themed interface.
+
+![LifeOS Dashboard](https://img.shields.io/badge/platform-macOS-blue) ![Flutter](https://img.shields.io/badge/Flutter-3.41-02569B?logo=flutter) ![Release](https://img.shields.io/github/v/release/Dmrfun/ai-test)
+
+---
 
 ## Features
 
 | Module | Description |
 |--------|-------------|
-| 💰 **BudgetOS** | Track income, expenses by category, monthly summaries, savings |
-| 🎯 **GoalOS** | Goals with priority levels, progress bars, overdue detection |
-| 📅 **ScheduleOS** | Events, recurring schedules, reminders, weekly view |
-| 💪 **HealthOS** | Habit streaks, sleep logs, exercise tracker, weekly summary |
-| 📓 **NotesOS** | Notes with tags, daily journal with mood tracking, search |
+| 💰 **Budget** | Track balance, log expenses, view spending history |
+| 🎯 **Goals** | Set goals with priorities and track progress |
+| 📅 **Schedule** | Daily events, reminders, and weekly agenda |
+| 💪 **Health** | Habit streaks, sleep logs, exercise tracker |
+| 📓 **Notes** | Tagged notes, journal entries, full-text search |
 
-## Setup
+---
 
-### Requirements
-- Python 3.8+
-- pip
+## Download & Install (macOS)
 
-### Install & Run
+### Step 1 — Download
+
+Go to the [**Releases page**](https://github.com/Dmrfun/ai-test/releases/latest) and download **`lifeos.dmg`**.
+
+### Step 2 — Mount and Install
+
+1. Double-click **`lifeos.dmg`** to open it
+2. Drag **`lifeos.app`** into your **Applications** folder
+
+### Step 3 — Remove macOS Quarantine
+
+Because the app is not yet notarized with Apple, macOS will block it from opening with a *"cannot be opened because it is from an unidentified developer"* warning. Run this one-time command in Terminal to remove the quarantine flag:
 
 ```bash
-# Clone or download the repo, then:
-pip install -r requirements.txt
-
-# Option 1: Quick start with demo data
-bash run.sh
-
-# Option 2: Manual start
-python lifeos/seed.py   # load demo data (optional)
-python lifeos/main.py   # start the app
+xattr -d com.apple.quarantine /Applications/lifeos.app
 ```
 
-## Usage
+> **Alternative (no Terminal):** Right-click `lifeos.app` in Finder → click **Open** → click **Open** again in the dialog. macOS will remember your choice after the first time.
 
-The app launches with a **Dashboard** showing today's agenda, pending goals, budget balance, habit streaks, and your latest journal entry.
+### Step 4 — Open the App
 
-Navigate using numbered options in each menu. Press `0` to go back, `q` to quit.
+Launch **LifeOS** from your Applications folder or Spotlight (`⌘ Space` → type `lifeos`).
 
-### BudgetOS
-- Set a starting balance
-- Log income from any source
-- Track expenses in 6 categories: Food, Entertainment, Transport, Health, Bills, General
-- View monthly summaries and full transaction history
+---
 
-### GoalOS
-- Add goals with due dates, priority (1–5), and category
-- Track progress (0–100%) with visual progress bars
-- Overdue goals are highlighted in red
+## Build from Source
 
-### ScheduleOS
-- Add one-time or recurring (daily/weekly) events
-- Set optional reminder windows
-- View today's agenda, a specific day, or full week
+### Requirements
 
-### HealthOS
-- Log daily habits and see streak counts
-- Record sleep hours and quality (1–5)
-- Track exercise sessions by type and duration
-- Weekly summary with averages
+- [Flutter 3.41+](https://docs.flutter.dev/get-started/install/macos)
+- Xcode (for macOS target)
+- macOS 12 Monterey or later
 
-### NotesOS
-- Create notes with titles, content, and comma-separated tags
-- Write daily journal entries with mood tracking
-- Full-text search across notes and tags
-- View journal history separately
+### Steps
 
-## File Structure
+```bash
+# Clone the repo
+git clone https://github.com/Dmrfun/ai-test.git
+cd ai-test/lifeos_flutter
 
-```
-.
-├── lifeos/
-│   ├── main.py          # Entry point
-│   ├── seed.py          # Demo data loader
-│   ├── backend/
-│   │   ├── budget.py
-│   │   ├── goals.py
-│   │   ├── schedule.py
-│   │   ├── health.py
-│   │   └── notes.py
-│   ├── ui/
-│   │   ├── dashboard.py
-│   │   ├── budget_ui.py
-│   │   ├── goals_ui.py
-│   │   ├── schedule_ui.py
-│   │   ├── health_ui.py
-│   │   └── notes_ui.py
-│   └── data/            # Auto-created JSON files
-│       ├── budget.json
-│       ├── goals.json
-│       ├── schedule.json
-│       ├── health.json
-│       └── notes.json
-├── requirements.txt
-├── run.sh
-└── README.md
+# Install dependencies
+flutter pub get
+
+# Run in debug mode
+flutter run -d macos
+
+# Build release .app
+flutter build macos --release
+# Output: build/macos/Build/Products/Release/lifeos.app
 ```
 
-## Data Persistence
+---
 
-All data is stored as JSON files in `lifeos/data/`. The app auto-loads on startup and auto-saves after every change. No external database required.
+## Project Structure
+
+```
+lifeos_flutter/
+├── lib/
+│   ├── main.dart               # Entry point
+│   ├── models/                 # Data models (budget, goals, health, notes, schedule)
+│   ├── screens/                # Full-page screens for each module
+│   ├── widgets/                # Reusable UI components
+│   └── theme/                  # Dark theme and colour palette
+├── macos/                      # macOS platform runner
+├── web/                        # Web platform (bonus target)
+└── pubspec.yaml
+```
+
+---
+
+## Data Storage
+
+All data is stored locally using `shared_preferences`. Nothing leaves your device.
